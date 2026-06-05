@@ -10,7 +10,7 @@ Build scripts download a versioned asset and verify it against a
 sha256 pin they carry themselves:
 
 ```
-https://github.com/publicala/ffmpeg-static/releases/download/ffmpeg-<version>/ffmpeg-<version>-<arch>-static.tar.xz
+https://github.com/publicala/ffmpeg-static/releases/download/v<version>/ffmpeg-<version>-<arch>-static.tar.xz
 ```
 
 Arch is `amd64` or `arm64`. The consumer's checksum pin is the source
@@ -26,7 +26,7 @@ verification exactly like a tampered upstream download would.
 3. Create the release:
 
    ```bash
-   gh release create ffmpeg-<version> \
+   gh release create v<version> \
      --title "ffmpeg <version> (static)" \
      --notes "sha256 lines and the upstream source link" \
      ffmpeg-<version>-amd64-static.tar.xz \
@@ -43,3 +43,9 @@ unmodified from upstream, which publishes its build configuration and
 source links at <https://johnvansickle.com/ffmpeg/>. The
 corresponding source for each release is the matching ffmpeg release
 at <https://ffmpeg.org/download.html>.
+
+Releases here are immutable (an org rule): assets cannot change
+after publication, and a published tag name is never reusable, even
+after deletion. Publish via a draft so assets attach before the
+release locks: pass `--draft` to `gh release create`, then
+`gh release edit v<version> --draft=false`.
